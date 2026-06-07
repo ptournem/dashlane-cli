@@ -10,7 +10,4 @@ export * from './getTeamMembers.js';
 export * from './getTeamReport.js';
 export * from './listDevices.js';
 export * from './listPublicAPIKeys.js';
-export * from './performDuoPushVerification.js';
-export * from './performEmailTokenVerification.js';
-export * from './performTotpVerification.js';
 export * from './revokePublicAPIKey.js';
