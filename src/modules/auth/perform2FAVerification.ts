@@ -1,4 +1,4 @@
-import { performTotpVerification } from '../../endpoints/index.js';
+import { performTokenVerification } from '../../endpoints/index.js';
 import { completeLoginWithAuthTicket } from '../../endpoints/completeLoginWithAuthTicket.js';
 import { Get2FAStatusOutput, get2FAStatusUnauthenticated } from '../../endpoints/get2FAStatusUnauthenticated.js';
 import { logger } from '../../logger.js';
@@ -26,9 +26,10 @@ export const perform2FAVerification = async ({ login, deviceAccessKey }: Params)
 
     if (twoFactorAuthStatus.type === 'totp_login') {
         const otp = await askOtp();
-        ({ authTicket } = await performTotpVerification({
+        ({ authTicket } = await performTokenVerification({
             login,
-            otp,
+            token: otp,
+            deviceAccessKey,
         }));
 
         const { ssoServerKey, serverKey } = await completeLoginWithAuthTicket({

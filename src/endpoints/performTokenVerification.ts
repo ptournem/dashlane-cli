@@ -1,10 +1,9 @@
 import { requestAppApi } from '../requestApi.js';
 
-interface PerformTokenVerification {
+type PerformTokenVerification = {
     login: string;
     token: string;
-    requestTokenVerificationId: string;
-}
+} & ({ requestTokenVerificationId: string } | { deviceAccessKey: string });
 
 export interface PerformTokenVerificationOutput {
     /**
@@ -19,6 +18,9 @@ export const performTokenVerification = (params: PerformTokenVerification) =>
         payload: {
             login: params.login,
             token: params.token,
-            requestTokenVerificationId: params.requestTokenVerificationId,
+            ...('requestTokenVerificationId' in params
+                ? { requestTokenVerificationId: params.requestTokenVerificationId }
+                : {}),
+            ...('deviceAccessKey' in params ? { deviceAccessKey: params.deviceAccessKey } : {}),
         },
     });
